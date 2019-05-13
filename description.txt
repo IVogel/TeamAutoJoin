@@ -7,8 +7,10 @@ Just change your team ¯\_( :| )_/¯
     It's fully clientside.
  
 [c/ff0000:Changes]:
+    1.2.1: Mod "homepage" and icon update (Yes, I can't do it all at once)
+ 
     1.2: Fully changed team save/load handler.
-
+ 
     1.1.1: Removed some unused content.
  
     1.1: Team autosave.

@@ -77,15 +77,6 @@ namespace TeamAutoJoin
 			base.OnEnterWorld(player);
 		}
 
-		// This shit wont save preferences, if it was called from this functuion. WTF?!
-		/*
-		public override void PlayerDisconnect(Player player)
-		{
-			Config.SaveTeam(Main.LocalPlayer.team);
-			base.PlayerDisconnect(player);
-		}
-		*/
-
 		public override void SendClientChanges(ModPlayer localPlayer)
 		{
 			if (team != Main.LocalPlayer.team)

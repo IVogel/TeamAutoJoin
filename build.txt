@@ -1,0 +1,4 @@
+author = IVogel
+version = 1.1.1
+displayName = Team Auto Join
+side = Client

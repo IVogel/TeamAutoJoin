@@ -1,0 +1,14 @@
+Sets team automatically on join.
+And also saves it automatically on change.
+Just change your team ¯\_( :| )_/¯
+ 
+[c/ff0000:Notes]:
+    Maybe uses silly workarounds to handle team changes. (I haven't found anything better right now, maybe later.)
+    It's fully clientside.
+ 
+[c/ff0000:Changes]:
+    1.1.1: Removed some unused content.
+ 
+    1.1: Team autosave.
+ 
+    1.0: First attempts to set team automatically.

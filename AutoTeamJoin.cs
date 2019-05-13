@@ -1,29 +1,54 @@
 using Terraria.ModLoader;
-using Terraria.IO;
 using Terraria;
 using System.IO;
 
 namespace TeamAutoJoin
 {
-	internal static class Config
+	static class config
 	{
-		public static int LoadTeam()
+		private static bool loaded = false;
+		public  static byte team   = 0;
+
+		private static readonly string configfolder = Path.Combine(Main.SavePath, "Mod Configs");
+		private static readonly string configpath   = Path.Combine(configfolder, "TeamAutoJoin");
+
+		public static void SaveTeam(byte team)
 		{
-			if(!Config.preferences.Load())
+			config.team = team;
+			if (!Directory.Exists(configfolder))
 			{
-				Config.SaveTeam(0);
-				return 0;
+				Directory.CreateDirectory(configfolder);
 			}
-			return Config.preferences.Get<int>("team", 0);
+			using (BinaryWriter stream = new BinaryWriter(File.Open(configpath, FileMode.OpenOrCreate)))
+			{
+				stream.Write(team);
+			}
 		}
-		public static void SaveTeam(int team)
+
+		public static byte LoadTeam()
 		{
-			Config.preferences.Clear();
-			Config.preferences.Put("team", team);
-			Config.preferences.Save(true);
+			loaded = true;
+
+			if (!File.Exists(configpath))
+			{
+				SaveTeam(0);
+				return team;
+			}
+			using (BinaryReader stream = new BinaryReader(File.Open(configpath, FileMode.Open)))
+			{
+				team = stream.ReadByte();
+			}
+
+			return team;
 		}
-		public static readonly string configPath       = Path.Combine(Main.SavePath, "Mod Configs", "TeamAutoJoin.json");
-		public static readonly Preferences preferences = new Preferences(Config.configPath, true, true);
+
+		public static byte GetTeam()
+		{
+			if (loaded)
+				return team;
+
+			return LoadTeam();
+		}
 	}
 
 	class TeamAutoJoin : Mod
@@ -46,7 +71,7 @@ namespace TeamAutoJoin
 		{
 			if (Main.LocalPlayer == player)
 			{
-				team = Config.LoadTeam();
+				team = config.GetTeam();
 				Main.LocalPlayer.team = team;
 			}
 			base.OnEnterWorld(player);
@@ -66,7 +91,7 @@ namespace TeamAutoJoin
 			if (team != Main.LocalPlayer.team)
 			{
 				team = Main.LocalPlayer.team;
-				Config.SaveTeam(team);
+				config.SaveTeam((byte)team);
 			}
 			if (!teamLoaded)
 			{
